@@ -12,7 +12,7 @@ if (DEFINED MCU)
   set(CMAKE_TOOLCHAIN_FILE "${mcu_support_SOURCE_DIR}/cmake/cortex.cmake")
   # Project information
   project(InvensenseImu
-    VERSION 6.0.3
+    VERSION 6.0.4
     DESCRIPTION "Invensense IMU sensor driver"
     LANGUAGES CXX
   )
@@ -34,6 +34,8 @@ if (DEFINED MCU)
     src/mpu9250.h
     src/mpu6500.cpp
     src/mpu6500.h
+    src/icm20602.cpp
+    src/icm20602.h
   )
   # Link libraries
   target_link_libraries(invensense_imu
@@ -162,5 +164,56 @@ if (DEFINED MCU)
     # Add hex and upload targets
     include(${mcu_support_SOURCE_DIR}/cmake/flash_mcu.cmake)
     FlashMcu(mpu9250_wom_example ${MCU} ${mcu_support_SOURCE_DIR})
+
+    ### ICM-20602
+
+    # Add the spi example target
+    add_executable(icm20602_spi_example examples/cmake/icm20602/spi.cc)
+    # Add the includes
+    target_include_directories(icm20602_spi_example PUBLIC 
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+      $<INSTALL_INTERFACE:include>
+    )
+    # Link libraries to the example target
+    target_link_libraries(icm20602_spi_example
+      PRIVATE
+        invensense_imu
+    )
+    # Add hex and upload targets
+    include(${mcu_support_SOURCE_DIR}/cmake/flash_mcu.cmake)
+    FlashMcu(icm20602_spi_example ${MCU} ${mcu_support_SOURCE_DIR})
+
+    # Add the i2c example target
+    add_executable(icm20602_i2c_example examples/cmake/icm20602/i2c.cc)
+    # Add the includes
+    target_include_directories(icm20602_i2c_example PUBLIC 
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+      $<INSTALL_INTERFACE:include>
+    )
+    # Link libraries to the example target
+    target_link_libraries(icm20602_i2c_example
+      PRIVATE
+        invensense_imu
+    )
+    # Add hex and upload targets
+    include(${mcu_support_SOURCE_DIR}/cmake/flash_mcu.cmake)
+    FlashMcu(icm20602_i2c_example ${MCU} ${mcu_support_SOURCE_DIR})
+
+    # Add the drdy interrupt example
+    add_executable(icm20602_drdy_spi_example examples/cmake/icm20602/drdy_spi.cc)
+    # Add the includes
+    target_include_directories(icm20602_drdy_spi_example PUBLIC 
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+      $<INSTALL_INTERFACE:include>
+    )
+    # Link libraries to the example target
+    target_link_libraries(icm20602_drdy_spi_example
+      PRIVATE
+        invensense_imu
+    )
+    # Add hex and upload targets
+    include(${mcu_support_SOURCE_DIR}/cmake/flash_mcu.cmake)
+    FlashMcu(icm20602_drdy_spi_example ${MCU} ${mcu_support_SOURCE_DIR})
+
   endif()
 endif()
