@@ -6,6 +6,8 @@ Lint:
   tags:
     - bfs
   script: 
+    - cpplint --verbose=0 src/icm20602.cpp
+    - cpplint --verbose=0 src/icm20602.h
     - cpplint --verbose=0 src/mpu9250.cpp
     - cpplint --verbose=0 src/mpu9250.h
     - cpplint --verbose=0 src/mpu6500.cpp
