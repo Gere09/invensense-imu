@@ -1,6 +1,6 @@
 # Changelog
 ## v6.0.4
--Including support for the ICM20602
+- Including support for the ICM20602
 
 ## v6.0.3
 - Updated core to v3.1.3
